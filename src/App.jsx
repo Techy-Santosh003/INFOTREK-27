@@ -4,6 +4,7 @@ import AboutSection from './components/AboutSection.jsx'
 import EventsSection from './components/EventsSection.jsx'
 import ScheduleSection from './components/ScheduleSection.jsx'
 import ContactSection from './components/ContactSection.jsx'
+import Footer from './components/Footer.jsx'
 import './App.css'
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <ScheduleSection />
         <ContactSection />
       </main>
+      <Footer />
     </>
   )
 }
