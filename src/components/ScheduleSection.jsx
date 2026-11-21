@@ -1,40 +1,4 @@
-const schedulePlaceholders = [
-  {
-    number: '01',
-    time: '09:00 AM',
-    title: 'Opening Ceremony — Placeholder',
-    description: 'Placeholder description: introductory activity details will be added here.',
-    accent: 'cyan',
-  },
-  {
-    number: '02',
-    time: '10:30 AM',
-    title: 'Featured Session — Placeholder',
-    description: 'Placeholder description: session information will be added here.',
-    accent: 'violet',
-  },
-  {
-    number: '03',
-    time: '12:00 PM',
-    title: 'Interactive Activity — Placeholder',
-    description: 'Placeholder description: activity information will be added here.',
-    accent: 'lime',
-  },
-  {
-    number: '04',
-    time: '02:00 PM',
-    title: 'Collaborative Session — Placeholder',
-    description: 'Placeholder description: session information will be added here.',
-    accent: 'violet',
-  },
-  {
-    number: '05',
-    time: '04:00 PM',
-    title: 'Closing Ceremony — Placeholder',
-    description: 'Placeholder description: closing activity details will be added here.',
-    accent: 'cyan',
-  },
-]
+import events, { proposedDays } from '../data/events.js'
 
 function ScheduleSection() {
   return (
@@ -45,43 +9,70 @@ function ScheduleSection() {
             <span className="eyebrow-line" /> THE ROADMAP
           </p>
           <h2 id="schedule-title">
-            Every Moment,
+            Three Days,
             <br />
-            <span className="schedule-heading-accent">Engineered.</span>
+            <span className="schedule-heading-accent">Beyond the Signal.</span>
           </h2>
           <p className="schedule-intro">
-            A sample sequence of moments for INFOTREK '27. The times and
-            activities shown here are illustrative placeholders; official
-            schedule details will be added later.
+            Explore the proposed three-day lineup for INFOTREK '27. Dates, timings
+            and venue details are subject to official organizer confirmation.
+          </p>
+          <p className="schedule-provisional-banner">
+            <span className="schedule-provisional-dot" aria-hidden="true" />
+            PROPOSED SCHEDULE DETAILS · SUBJECT TO OFFICIAL ORGANIZER CONFIRMATION
           </p>
         </header>
 
-        <ol className="schedule-timeline" aria-label="Illustrative schedule placeholders">
-          {schedulePlaceholders.map((item, index) => (
-            <li className={`schedule-item schedule-item-${item.accent}`} key={item.number}>
-              <span className="schedule-marker" aria-hidden="true">
-                <span>{item.number}</span>
-              </span>
-              <article className="schedule-card">
-                <div className="schedule-card-topline">
-                  <span className="schedule-sequence">ACTIVITY / {item.number}</span>
-                  <span className="schedule-time">
-                    <span>ILLUSTRATIVE TIME</span>
-                    <time>{item.time}</time>
-                  </span>
+        <div className="schedule-days">
+          {proposedDays.map((day) => (
+            <section
+              className={`schedule-day schedule-day-${day.accent}`}
+              aria-labelledby={`schedule-day-${day.number}`}
+              key={day.number}
+            >
+              <header className="schedule-day-header">
+                <div>
+                  <p className="schedule-day-kicker">PROPOSED DATE</p>
+                  <h3 id={`schedule-day-${day.number}`}>{day.label}</h3>
                 </div>
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
-                <span className="schedule-card-index" aria-hidden="true">0{index + 1}</span>
-              </article>
-            </li>
-          ))}
-        </ol>
+                <time dateTime={day.date}>{day.displayDate}</time>
+              </header>
 
-        <p className="schedule-placeholder-note">All times and activity details on this roadmap are placeholders.</p>
+              <ol className="schedule-day-events">
+                {events.filter((event) => event.day === day.number).map((event) => (
+                  <li className="schedule-entry" key={event.id}>
+                    <div className="schedule-entry-topline">
+                      <span className="schedule-entry-number">{event.number}</span>
+                      <span className="schedule-entry-day">{day.label} · PROPOSED</span>
+                    </div>
+                    <time className="schedule-entry-date" dateTime={day.date}>
+                      {day.displayDate}
+                    </time>
+                    <h4>
+                      <a className="schedule-event-link" href={`#${event.id}`}>
+                        {event.title}
+                        <span aria-hidden="true">↗</span>
+                      </a>
+                    </h4>
+                    <dl className="schedule-entry-details">
+                      <div>
+                        <dt>Proposed timing</dt>
+                        <dd>{event.details.dateAndTime.time}</dd>
+                      </div>
+                      <div>
+                        <dt>Proposed venue</dt>
+                        <dd>{event.details.venue}</dd>
+                      </div>
+                    </dl>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          ))}
+        </div>
       </div>
       <div className="schedule-bottom-rule" aria-hidden="true">
-        <span>SEQUENCE IN DEVELOPMENT</span>
+        <span>PROPOSED LINEUP · DETAILS TO BE ANNOUNCED</span>
         <span className="schedule-rule-line" />
         <span>INFOTREK '27</span>
       </div>
